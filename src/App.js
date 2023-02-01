@@ -11,7 +11,7 @@ export default function App() {
         <footer>
           This project was coded by Matt Delac and is 
           <a
-            href="https://github.com/07_denka_28/react-weather-app"
+            href="https://github.com/07denka28/react-weather-project"
             target="_blank"
             rel="noopener noreferrer"
           > open-sourced on GitHub
