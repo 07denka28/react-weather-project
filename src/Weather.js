@@ -9,7 +9,6 @@ export default function Weather() {
   const [humidity, setHumidity] = useState(null);
   const [wind, setWind] = useState(null);
   const [city, setCity] = useState(null);
-  const [icon, setIcon] = useState(null);
   const [description, setDescription] = useState(null);
 
   function handleResponse(response) {
@@ -19,7 +18,6 @@ export default function Weather() {
     setWind(Math.round(response.data.wind.speed));
     setDescription(response.data.weather[0].description)
     setCity(response.data.name);
-    setIcon(response.data.weather[0].icon);
     setReady(true);
 
   };
