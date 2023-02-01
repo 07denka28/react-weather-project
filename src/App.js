@@ -17,7 +17,7 @@ export default function App() {
           > open-sourced on GitHub
           </a> and
           <a
-            href="https://suspicious-beaver-111c4d.netlify.com/"
+            href="https://brilliant-bombolone-a42676.netlify.com/"
             target="_blank"
             rel="noopener noreferrer"
           > hosted on Netlify
