@@ -9,7 +9,7 @@ export default function App() {
         <Weather defaultCity="New York" />
 
         <footer>
-          This project was coded by Matt Delac and is 
+          This project was coded by Natalia Sabdosh and is 
           <a
             href="https://github.com/07denka28/react-weather-project"
             target="_blank"
