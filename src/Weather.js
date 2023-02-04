@@ -1,80 +1,77 @@
 import React, { useState } from "react";
-import "./Weather.css"
-import FormattedDate from "./FormattedDate"
+import "./Weather.css";
+import FormattedDate from "./FormattedDate";
+import WeatherInfo from "./WeatherInfo";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 
-export default function Weather() {
-  const [ready, setReady] = useState(false);
-  const [temperature, setTemperature] = useState(null);
-  const [humidity, setHumidity] = useState(null);
-  const [wind, setWind] = useState(null);
-  const [city, setCity] = useState(null);
-  const [description, setDescription] = useState(null);
-  const [date, setDate] = useState(null);
+export default function Weather(props) {
+  const [weatherData, setWeatherData] = useState(" ")
+  const [city, setCity] = useState(props.defaultCity)
 
   function handleResponse(response) {
-    console.log(response.data);
-    setTemperature(Math.round(response.data.main.temp));
-    setHumidity(response.data.main.humidity);
-    setWind(Math.round(response.data.wind.speed));
-    setDescription(response.data.weather[0].description)
-    setCity(response.data.name);
-    setDate(new Date(response.data.dt * 1000))
-    setReady(true);
+      console.log(response)
+    setWeatherData({
+      ready: true,
+      coordinates: response.data.coord,
+      temperature: response.data.main.temp,
+      humidity: response.data.main.humidity,
+      date: new Date(response.data.dt * 1000),
+      description: response.data.weather[0].description,
+      iconUrl: "https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png",
+      wind: response.data.wind.speed,
+      city: response.data.name,
+    });
+  }
 
-  };
 
-  if (ready) {
+  function search() {
+    const apiKey = "05b285fc066c4cedc03280e8d6bfbd00"
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(handleResponse);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    search();
+  }
+
+
+  function handleCityChange(event) {
+    setCity(event.target.value)
+
+  }
+
+  if (weatherData.ready) {
     return (
-    <div className="Weather">
-      <form>
-        <div className="row">
-          <div className="col-9">
-            <input
+      <div className="Weather">
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col-9">
+              <input
                 type="search"
                 placeholder="Enter a city.."
                 className="form-control"
                 autoFocus="on"
-            />
+                onChange={handleCityChange}
+
+              />
             </div>
             <div className="col-3">
               <input
                 type="submit"
                 value="Search"
-                className="btn btn-primary"
+                className="btn btn-primary w-100"
               />
             </div>
           </div>
         </form>
-        <h1>{city}</h1>
-      <ul>
-        <li><FormattedDate date={date} /></li>
-        <li className="text-capitalize">{description}</li>
-      </ul>
-      <div className="row mt-3">
-       <div className="col-6">
-         <div className="clearfix">
-          <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="Mostly Cloudy" className="clearfix"/>
-             <span className="temperature">{temperature}</span>
-             <span className="unit">°C</span>
-         </div>
-        </div>
-        <div className="col-6 info">
-          <ul>
-            <li>Humidity: {humidity}%</li>
-            <li>Wind: {wind} km/h</li>
-          </ul>
-        </div>
+        <WeatherInfo data={weatherData} />
       </div>
-    </div> 
     );
-  } else {const apiKey = "094780c710fa4efd669f0df8c3991927";
-  let city = "New York"
-  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-    axios.get(apiUrl).then(handleResponse);
-  
-    return "Loading.."
+  } else {
+    search();
+    return "Loading...";
   }
  
 };
