@@ -32,13 +32,10 @@
   line-height: 64px;
   margin-left: 5px;
   font-weight: 400;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 .Weather canvas {
-  height: 64px;
-  width: 64px;
-  margin-right: 10px;
   display: inline-block;
 }
 
